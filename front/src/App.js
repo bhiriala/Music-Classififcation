@@ -13,7 +13,7 @@ function App() {
         <form>
           <div className="form-group">
             <label htmlFor="model">Select Model</label>
-            {/* `value` lié à l'état, et `onChange` pour mettre à jour */}
+           
             <select
               id="model"
               name="model"

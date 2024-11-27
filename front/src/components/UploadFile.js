@@ -42,7 +42,7 @@ function UploadFile({ userInput }) {
       const response = await axios.post(`http://localhost:${port}/predict`, formData, {
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data', // Add this header
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -89,7 +89,7 @@ function UploadFile({ userInput }) {
       </Button>
 
       {result && (
-        <Typography variant="body1" style={{ marginTop: 20, marginRight: '29%', marginLeft: '30.5%' }}>
+        <Typography variant="body1" style={{ marginTop: 20, marginRight: '26%', marginLeft: '35.5%' }}>
           {result}
         </Typography>
       )}
