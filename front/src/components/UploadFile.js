@@ -1,22 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 
-function UploadFile({ serviceType }) {
+function UploadFile({ userInput }) {
   const [file, setFile] = useState(null);
   const [result, setResult] = useState('');
+  const [port, setPort] = useState(0);
+  const [serviceType, setServiceType] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (userInput === 'svm') {
+      setPort(5001);
+      setServiceType('svm');
+    } else {
+      setPort(5002);
+      setServiceType('vgg');
+    }
+  }, [userInput]);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     
-    // Optional: Add basic file validation
     if (selectedFile && selectedFile.type !== 'audio/wav') {
       setResult('Please select a .wav file');
       setFile(null);
     } else {
       setFile(selectedFile);
-      setResult(''); // Clear any previous error message
+      setResult('');
     }
   };
 
@@ -26,25 +37,18 @@ function UploadFile({ serviceType }) {
     setLoading(true);
     const formData = new FormData();
     formData.append('file', file);
-    console.log(formData);
 
     try {
-      const response = await axios.post('http://localhost:5001/predict', formData, {
+      const response = await axios.post(`http://localhost:${port}/predict`, formData, {
         headers: {
           'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data', // Add this header
         },
       });
 
-      // Log the response to check its structure
-      console.log(response.data); // Debugging the response
-
       const genre = response.data.genre;
-
-      if (genre) {
-        setResult(`Genre classified by ${serviceType}: ${genre}`);
-      } else {
-        setResult('No genre predicted.');
-      }
+      console.log(response.data);
+      setResult(genre ? `Genre classified by ${serviceType}: ${genre}` : 'No genre predicted.');
     } catch (error) {
       console.error("Error uploading file:", error);
       const errorMessage = error.response
@@ -57,7 +61,7 @@ function UploadFile({ serviceType }) {
   };
 
   return (
-    <div style={{ marginTop: 20 }}>
+    <div>
       <TextField
         type="file"
         accept=".wav"
@@ -65,11 +69,11 @@ function UploadFile({ serviceType }) {
         fullWidth
         InputLabelProps={{ shrink: true }}
         inputProps={{
-            style: {
+          style: {
             height: '41px', 
             display: 'flex',
             alignItems: 'center',
-            },
+          },
         }}
         style={{ marginBottom: 10 }}
       />
@@ -79,11 +83,13 @@ function UploadFile({ serviceType }) {
         color="primary"
         onClick={handleSubmit}
         disabled={!file || loading}
+        style={{ width: '47%', marginRight: '33%', marginLeft: '27%', marginTop: 10, backgroundColor: 'rgb(111, 10, 212)' }}
       >
         {loading ? 'Classifying...' : 'Classify Genre'}
       </Button>
+
       {result && (
-        <Typography variant="body1" style={{ marginTop: 10 }}>
+        <Typography variant="body1" style={{ marginTop: 20, marginRight: '29%', marginLeft: '30.5%' }}>
           {result}
         </Typography>
       )}

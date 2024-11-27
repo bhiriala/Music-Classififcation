@@ -1,27 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import UploadFile from './components/UploadFile';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 
 function App() {
+  const [userInput, setUserInput] = useState('');
+
   return (
     <div className="app">
       <div className="upload-container">
         <h1>Upload Your Song</h1>
         <form>
           <div className="form-group">
-            <label htmlFor="song">Choose a Song</label>
-            <UploadFile serviceType="SVM_service" />
-            {/* <input type="file" id="song" name="song" /> */}
-          </div>
-          {/* <div className="form-group">
             <label htmlFor="model">Select Model</label>
-            <select id="model" name="model">
+            {/* `value` lié à l'état, et `onChange` pour mettre à jour */}
+            <select
+              id="model"
+              name="model"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+            >
+              <option value="" disabled>Select a model</option>
               <option value="svm">SVM</option>
-              <option value="rf">VGG</option>
+              <option value="vgg">VGG</option>
             </select>
           </div>
-          <button type="submit" className="upload-button">Upload Song</button> */}
+
+          <div className="form-group">
+            <label htmlFor="song">Choose a Song</label>
+            <UploadFile userInput={userInput} />
+          </div>
         </form>
       </div>
     </div>
