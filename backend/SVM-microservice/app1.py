@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Pour activer CORS
 import librosa
 import numpy as np
 import os
 import joblib
 
 app = Flask(__name__)
+CORS(app)  # Activer CORS pour toutes les routes
 
 # Charger le modèle SVM
 model = joblib.load("model.pkl")
@@ -15,7 +17,7 @@ def predict():
     if "file" not in request.files:
         return jsonify({"error": "No file part in the request"}), 400
 
-    file = request.files["songFile"]  # Remplacez 'file' par 'songFile' ici aussi
+    file = request.files["file"]  # Aligné avec le frontend
 
     if file.filename == "":
         return jsonify({"error": "No selected file"}), 400
@@ -45,6 +47,7 @@ def predict():
             "genre": predicted_genre,  # Aligner la clé avec `response.genre` dans le frontend
         }
     except Exception as e:
+        app.logger.error(f"Erreur lors du traitement du fichier : {str(e)}")
         result = {"error": f"Error processing audio: {str(e)}"}
     finally:
         if os.path.exists(file_path):
