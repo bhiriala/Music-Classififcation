@@ -83,7 +83,7 @@ function UploadFile({ userInput }) {
         color="primary"
         onClick={handleSubmit}
         disabled={!file || loading}
-        style={{ width: '47%', marginRight: '33%', marginLeft: '27%', marginTop: 10, backgroundColor: 'rgb(111, 10, 212)' }}
+        style={{ width: '47%', marginRight: '33%', marginLeft: '27%', marginTop: 10, backgroundColor: 'rgb(111, 10, 212)',color:'white' }}
       >
         {loading ? 'Classifying...' : 'Classify Genre'}
       </Button>
