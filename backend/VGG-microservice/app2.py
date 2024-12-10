@@ -8,7 +8,9 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import os
 
 app = Flask(__name__)
-CORS(app)  # Autoriser les requêtes Cross-Origin pour résoudre les problèmes CORS
+CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
+
+
 
 # Charger le modèle VGG
 model = load_model("music_genre_model.h5")
@@ -99,4 +101,5 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(port=5002, debug=True)
+    app.run(host="0.0.0.0", port=5003, debug=True)
+
