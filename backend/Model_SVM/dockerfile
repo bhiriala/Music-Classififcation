@@ -1,35 +1,7 @@
-# FROM python:3.9-slim
-# WORKDIR /app
-# COPY requirements.txt .
-# RUN pip install --no-cache-dir -r requirements.txt
-# COPY . .
-
-# # RUN mkdir -p static/uploads
-
-# EXPOSE 5001
-
-# # ENV FLASK_APP=app.py
-# # ENV FLASK_RUN_HOST=0.0.0.0
-
-# CMD ["python", "app.py"]
-#########################################################################################
-
-# Use a minimal Python base image
 FROM python:3.9-slim
-
-# Set the working directory
 WORKDIR /app
-
-# Copy only requirements first for efficient caching
 COPY requirements.txt .
-
-# Install dependencies without cache to reduce image size
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Ensure the static/uploads folder exists
-RUN mkdir -p static/uploads
-
-# Copy the rest of the application files
 COPY . .
 EXPOSE 5001
 CMD ["python", "app.py"]
