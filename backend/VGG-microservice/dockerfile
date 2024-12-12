@@ -3,8 +3,5 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-# RUN mkdir -p static/uploads
-EXPOSE 5002
-# ENV FLASK_APP=app.py
-# ENV FLASK_RUN_HOST=0.0.0.0
-CMD ["python", "app.py"]
+EXPOSE 5003
+CMD ["python", "app2.py"]

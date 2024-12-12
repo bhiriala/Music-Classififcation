@@ -14,7 +14,7 @@ function UploadFile({ userInput }) {
       setPort(5001);
       setServiceType('svm');
     } else {
-      setPort(5002);
+      setPort(5003);
       setServiceType('vgg');
     }
   }, [userInput]);
